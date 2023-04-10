@@ -1,26 +1,32 @@
-import React from 'react';
-import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
-import Navbar from './components/Navbar';
-import Footer from './components/Footer';
-import Home from './components/Home';
-import Contacto from './components/Contacto';
-import Detalle from './components/Detalle';
-import Destacados from './components/Destacados';
+import { Route, Routes } from "react-router-dom";
+import Footer from "./Components/Footer";
+import Navbar from "./Components/Navbar";
+import Favs from "./Routes/Favs";
+import Home from "./Routes/Home";
+import Contact from "./Routes/Contact";
+import Detail from "./Routes/Detail";
+import { useContext } from "react";
+import { ThemeContext } from "./Components/utils/Theme.context";
+import { DataProvider } from "./Components/utils/global.context";
 
-const App = () => {
+function App() {
+  const contextTheme = useContext(ThemeContext);
   return (
-    <Router>
-      <Navbar />
-      <Switch>
-        <Route exact path="/" component={Home} />
-        <Route exact path="/contact" component={Contacto} />
-        <Route exact path="/dentist/:id" component={Detalle} />
-        <Route exact path="/favs" component={Destacados} />
-      </Switch>
-      <Footer />
-    </Router>
+      <div className={`App ${contextTheme.theme}`}>
+          <Navbar/> 
+          <DataProvider>
+            <Routes>
+                <Route path="/" element={<Home/>}/>
+                <Route path="/dentista/:id" element={<Detail/>}/>
+                <Route path="/contact/*" element={<Contact/>}/>
+                <Route path="/favs/*" element={<Favs/>}/>
+                <Route path="/*" element={<h1>404 Not Found</h1>}/>
+            </Routes> 
+          </DataProvider>
+          <Footer/>
+    
+      </div>
   );
-};
+}
 
 export default App;
-

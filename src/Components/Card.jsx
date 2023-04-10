@@ -1,28 +1,32 @@
 import React from "react";
+import { useState, useEffect } from "react";
+import { Link } from 'react-router-dom'
+
+export const  Card = (c) => {
+  const [user, setUsers] = useState([]); 
 
 
-const Card = ({ name, username, id }) => {
+  useEffect(()=>{
+    c.children ? setUsers(c.children) : console.log("");;
+  }, [ user, c.children])
 
-  const addFav = (odontologo) => {
-    const favoritos = localStorage.getItem('favoritos') || '[]';
-    const favoritosArray = JSON.parse(favoritos);
-    favoritosArray.push(odontologo);
-    localStorage.setItem('favoritos', JSON.stringify(favoritosArray));
-  };
+  const addFav = (userFav)=>{
+    const users = localStorage.getItem('favoritosCard') || '[]';
+    let usersArray = JSON.parse(users);
+    usersArray.some(u => u.id === userFav.id) ? console.log("Esta card ya existe") : usersArray.push(user ); 
+    localStorage.setItem('favoritosCard', JSON.stringify(usersArray))
+  }
+
   return (
-    <Router>
-      <div className={`App ${tema}`}>
-        <Navbar />
-        <Switch>
-          <Route exact path="/" render={() => <Home odontologos={odontologos} agregarFavorito={agregarFavorito} />} />
-          <Route exact path="/contacto" component={Contacto} />
-          <Route exact path="/dentist/:id" component={Detalle} />
-          <Route exact path="/favs" render={() => <Destacados odontologos={odontologos} eliminarFavorito={eliminarFavorito} />} />
-        </Switch>
-        <Footer tema={tema} cambiarTema={cambiarTema} />
+      <div className="card">
+          <p>{user.id}</p>
+        <Link to={`/dentista/${user.id}`} >
+          <h2>{user.name}</h2>
+        </Link>
+          <p>Username : {user.username}</p> 
+          <button onClick={()=>addFav(user)} className="favButton">Add fav</button>
       </div>
-    </Router>
-  );
+    )
 };
 
 export default Card;

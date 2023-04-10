@@ -1,15 +1,24 @@
 import { createContext } from "react";
+import { useState, useEffect } from "react";
 
-export const initialState = {theme: "", data: []}
 
-export const ContextGlobal = createContext(undefined);
+export const ContextG = createContext(undefined);
 
-export const ContextProvider = ({ children }) => {
-  //Aqui deberan implementar la logica propia del Context, utilizando el hook useMemo
+export const DataProvider = ({ children }) => {
+
+  const [dataApi, setDataApi] = useState([])
+
+
+  useEffect(() => {
+      fetch('https://jsonplaceholder.typicode.com/users')
+      .then((response)=> response.json())
+      .then((data)=> setDataApi(data))
+  }, [])
+
 
   return (
-    <ContextGlobal.Provider value={{}}>
+    <ContextG.Provider value={dataApi}>
       {children}
-    </ContextGlobal.Provider>
+    </ContextG.Provider>
   );
 };

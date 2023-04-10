@@ -1,10 +1,14 @@
+import React from 'react'
+import Form from '../Components/Form'
 
-import React, { useState } from 'react';
-
-const Contacto = () => {
-  const [nombre, setNombre] = useState('');
-  const [email, setEmail] = useState('');
-  const [error, setError] = useState('');
-  const [exito, setExito] = useState(false);
-
+const Contact = () => {
+  return (
+    <div>
+      <h2>¿Necesitas ayuda?</h2>
+      <p>Envianos tus datos y nos pondremos en contacto contigo.</p>
+      <Form/>
+    </div>
+  )
 }
+
+export default Contact;
